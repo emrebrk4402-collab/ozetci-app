@@ -459,7 +459,7 @@ def fetch_study_questions(client, context_text, count=10):
       }}
     ]
     İçerik:
-    {context_text[:10000]}
+    {context_text[:5000]}
     """
     resp = client.models.generate_content(
     model="gemini-3.8-flash",
