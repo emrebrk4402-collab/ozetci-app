@@ -462,10 +462,13 @@ def fetch_study_questions(client, context_text, count=10):
     {context_text[:25000]}
     """
     resp = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt,
-        config=types.GenerateContentConfig(response_mime_type="application/json")
+    model="gemini-3.8-flash",
+    contents=prompt,
+    config=types.GenerateContentConfig(
+        response_mime_type="application/json"
     )
+    )
+    
     return json.loads(resp.text)
 
 def record_stat(topic, is_correct):
