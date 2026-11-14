@@ -493,4 +493,5 @@ if current_page == "study_cards":
                 q["correct_streak"] = 0
             st.session_state.card_queue = qs
             st.session_state.card_target_id = target["id"]
-            st.session_state.
+            st.session_state.card_flipped = False
+            
