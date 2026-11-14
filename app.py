@@ -278,7 +278,11 @@ elif current_page == "new_summary":
                     st.warning("Lütfen önce geçerli bir fotoğraf, dosya veya link girin.")
                     st.stop()
 
-                result = generate_summary_content(client, raw_text, pil_images, mode)
+                        if mode == "detailed":
+            result = generate_detailed_summary_chunked(raw_text)
+        else:
+            result = generate_summary_content(client, raw_text, mode)
+            
 
                 new_entry = {
                     "id": str(int(datetime.now().timestamp())),
@@ -497,4 +501,23 @@ if current_page == "study_cards":
             st.session_state.card_queue = qs
             st.session_state.card_target_id = target["id"]
             st.session_state.card_flipped = False
+            def generate_detailed_summary_chunked(text):
+    chunk_size = 10000
+    chunks = [text[i:i+chunk_size] for i in range(0, len(text), chunk_size)]
+    sub_summaries = []
+    
+    for idx, chunk in enumerate(chunks):
+        chunk_prompt = f"Bu metnin {idx+1}. bölümüdür. En önemli klinik bilgileri özetle:\n\n{chunk}"
+        resp = client.models.generate_content(model="gemini-3.8-flash", contents=chunk_prompt)
+        sub_summaries.append(resp.text)
+        
+    combined_text = "\n\n---\n\n".join(sub_summaries)
+    final_prompt = f"Aşağıdaki ara özetleri sentezleyerek tüm önemli noktaları içeren nihai detaylı özeti hazırla:\n\n{combined_text}"
+    
+    final_resp = client.models.generate_content(
+        model="gemini-3.8-flash",
+        contents=final_prompt,
+        config=types.GenerateContentConfig(response_mime_type="application/json")
+    )
+    return json.loads(final_resp.text)
             
