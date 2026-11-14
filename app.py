@@ -481,7 +481,7 @@ def record_stat(topic, is_correct):
 # ==============================================================================
 # 4A. KARTLAR MODU
 # ==============================================================================
-elif current_page == "study_cards":
+if current_page == "study_cards":
     target = st.session_state.study_target
     st.header(f"🃏 Bilgi Kartları: {target['title']}")
 
