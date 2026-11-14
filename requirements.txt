@@ -1,0 +1,7 @@
+streamlit
+google-genai
+youtube-transcript-api
+pypdf
+python-docx
+python-pptx
+pillow
