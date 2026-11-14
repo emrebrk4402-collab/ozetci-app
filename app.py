@@ -277,11 +277,11 @@ elif current_page == "new_summary":
                 if not raw_text and not pil_images:
                     st.warning("Lütfen önce geçerli bir fotoğraf, dosya veya link girin.")
                     st.stop()
-                            if mode == "detailed":
-            result = generate_detailed_summary_chunked(raw_text)
-        else:
-            result = generate_summary_content(client, raw_text, mode)
-            
+            if mode == "detailed":
+    result = generate_detailed_summary_chunked(raw_text)
+else:
+    result = generate_summary_content(client, raw_text, mode)
+    
                 new_entry = {
                     "id": str(int(datetime.now().timestamp())),
                     "title": result.get("title", source_label or "Yeni Özet"),
